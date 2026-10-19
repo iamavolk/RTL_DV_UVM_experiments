@@ -1,0 +1,16 @@
+./build/first_project_0.1/sim-questa-modelsim/src/first_project_0.1/src/behavioral_adder.sv
+./build/first_project_0.1/sim-questa-modelsim/src/first_project_0.1/tb/behavioral_adder_tb.sv
+./build/first_project_0.1/sim-questa-modelsim/src/first_project_0.1/tb/chapter_2.sv
+./build/first_project_0.1/sim-verilator/src/first_project_0.1/src/behavioral_adder.sv
+./build/first_project_0.1/sim-verilator/src/first_project_0.1/tb/chapter_2.sv
+./build/first_project_0.1/sim-verilator/src/first_project_0.1/tb/chapter_3.sv
+./build/first_project_0.1/sim-verilator/src/first_project_0.1/tb/tb.sv
+./pkg/utils_pkg.sv
+./src/behavioral_adder.sv
+./src/simple_arbiter.sv
+./src/stupid_counter.sv
+./tb/arb_if.sv
+./tb/chapter_2.sv
+./tb/chapter_3.sv
+./tb/tb_top.sv
+./tb/test_with_clocking.sv
