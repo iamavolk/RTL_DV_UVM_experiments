@@ -11,6 +11,9 @@ module tb_top;
     // initial
     //     utils_pkg::monitor_time(clk);
 
+    fifo_ext_hshake_if  fifo_if     ( clk );
+    fifo_ext_hshake     fifo_dut    ( fifo_if.DUT );
+
     initial
         $timeformat(-9, 0, " ns", 10);
 
