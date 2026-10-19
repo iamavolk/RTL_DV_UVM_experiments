@@ -31,15 +31,15 @@ module edge_detector
     ///////////////////////////////////////
     //  SVA
     ///////////////////////////////////////
-    // assert property (
-    //     @(posedge clk) disable iff (!rst_n)
-    //     detected |=> !detected
-    // );
-    //
-    // assert property (
-    //     @(posedge clk) disable iff (!rst_n)
-    //     $rose(input_bit) |=> detected
-    // );
+    assert property (
+        @(posedge edif.clk) disable iff (!edif.rst_n)
+        edif.detected |=> !edif.detected
+    );
+
+    assert property (
+        @(posedge edif.clk) disable iff (!edif.rst_n)
+        $rose(edif.d_in) |=> edif.detected
+    );
 
 endmodule: edge_detector
 

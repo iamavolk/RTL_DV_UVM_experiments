@@ -20,7 +20,7 @@ $(RUST_LIB): src/rtl_sim/src/lib.rs src/rtl_sim/Cargo.toml
 	cargo build --release --lib --manifest-path src/rtl_sim/Cargo.toml
 
 verilator: $(RUST_LIB)
-	@verilator                    \
+	@verilator                      \
 		-j 0                        \
 		-CFLAGS "-O0"               \
 		-Wno-lint                   \
