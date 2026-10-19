@@ -1,7 +1,8 @@
 RTL       = src/behavioral_adder.sv \
             src/stupid_counter.sv \
             src/simple_arbiter.sv \
-            src/edge_detector
+            src/edge_detector \
+            src/fifo_ext_hshake
 
 TB        = tb/chapter_3.sv \
             tb/tb_top.sv \
