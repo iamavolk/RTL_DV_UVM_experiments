@@ -4,15 +4,12 @@ module tb_top;
     bit clk = 0;
     always #50 clk = ~clk;
 
-    arb_if              arbif ( clk );
-    simple_arbiter         a1 ( arbif.DUT );
-    test_with_clocking     t1 ( arbif.TEST );
+    arb_if              arbif   ( clk );
+    simple_arbiter      a1      ( arbif.DUT );
+    test_with_clocking  t1      ( arbif.TEST );
 
-    initial
-        utils_pkg::say_hi();
-
-    initial
-        utils_pkg::monitor_time(clk);
+    // initial
+    //     utils_pkg::monitor_time(clk);
 
     initial
         $timeformat(-9, 0, " ns", 10);
@@ -24,17 +21,20 @@ module tb_top;
     //         $display("%p", values_array);
     //     end: dynamic_array_test
 
-    logic rst_n = 0;
-    logic d_in;
-    logic detected;
-
-    ed_if edif        ( clk );
-    edge_detector dut ( edif.DUT );
-    edge_detector_basic_tb ed_test ( edif.TEST );
+    ed_if                   edif    ( clk );
+    edge_detector           dut     ( edif.DUT );
+    edge_detector_basic_tb  ed_test ( edif.TEST );
 
     initial begin
         $dumpfile("tb/waves/edge.fst");
         $dumpvars(0, tb_top);
+    end
+
+    initial begin
+        repeat (100)
+            @(posedge clk);
+        utils_pkg::say_hi();
+        $finish();
     end
 
 endmodule: tb_top
