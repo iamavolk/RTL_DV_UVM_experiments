@@ -9,7 +9,8 @@ TB        = tb/chapter_3.sv                 \
             tb/test_with_clocking.sv        \
             tb/arb_if.sv                    \
             tb/edge_detector_basic_tb.sv    \
-            tb/fifo_ext_hshake_if.sv
+            tb/fifo_ext_hshake_if.sv        \
+            tb/test_top.sv
 
 PKG       = pkg/utils_pkg.sv
 

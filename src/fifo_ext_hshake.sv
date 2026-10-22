@@ -46,7 +46,7 @@ module fifo_ext_hshake
             if (fifo_if.r_en && !fifo_if.empty)
             begin: deque
                 fifo_if.d_out   <= buff[rd_ptr[AWIDTH-1:0]];
-                rd_ptr  <= rd_ptr + '1;
+                rd_ptr          <= rd_ptr + '1;
             end: deque
 
         end: regular_op
@@ -63,6 +63,7 @@ module fifo_ext_hshake
     begin: detect_full_empty
         fifo_if.full    = '0;
         fifo_if.empty   = '0;
+
         if (same_addr) begin
             if (same_msb)   fifo_if.empty = '1;
             else            fifo_if.full  = '1;
