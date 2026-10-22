@@ -1,5 +1,9 @@
-/obj_dir
+.slang/
 /build
+/misc
+/obj_dir
 /tb/waves
 
-misc.md
+**/*.fst
+*.conf
+*.core

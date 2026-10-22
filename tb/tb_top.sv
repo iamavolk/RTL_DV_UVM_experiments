@@ -17,13 +17,6 @@ module tb_top;
     initial
         $timeformat(-9, 0, " ns", 10);
 
-    // initial
-    //     begin: dynamic_array_test
-    //         utils_pkg::fixed_array5_t values_array;
-    //         values_array = utils_pkg::init(8);
-    //         $display("%p", values_array);
-    //     end: dynamic_array_test
-
     ed_if                   edif    ( clk );
     edge_detector           dut     ( edif.DUT );
     edge_detector_basic_tb  ed_test ( edif.TEST );
