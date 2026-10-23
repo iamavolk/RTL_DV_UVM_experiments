@@ -1,9 +1,14 @@
 .slang/
+.venv/
 /build
 /misc
 /obj_dir
 /tb/waves
+**/__pycache__
+**/sim_build
 
 **/*.fst
 *.conf
 *.core
+
+verible.filelist
