@@ -38,44 +38,49 @@ class Transaction;
     }
 endclass: Transaction
 
+task automatic run_stim();
+    Stim s;
+    s = new();
+    repeat(4) begin
+        if (!s.randomize())
+            $display("something went wrong");
+        $display("\t kind=%s,\t len=%0d,\t src=%0d,\t dst=%0d,\t congestion=%0d",
+            s.kind.name(), s.length, s.src, s.dst, s.congestion_test);
+    end
+endtask: run_stim
+
+task automatic test_distribution();
+    Transaction tr;
+    tr = new();
+    repeat (50) begin
+        if (!tr.randomize())
+            $display("something went wrong");
+        $display("\t src=%0d,\t dst=%0d", tr.src, tr.dst);
+    end
+endtask: test_distribution
+
+task automatic misc_tests();
+    utils_pkg::fixed_array5_t values_array;
+    values_array = utils_pkg::init(8);
+    $display("%p", values_array);
+endtask: misc_tests
+
 module test_top;
     bit clk = 0;
 
     initial
         forever #50 clk = ~clk;
 
-    // initial
-    //     begin: dynamic_array_test
-    //
-    //         utils_pkg::fixed_array5_t values_array;
-    //         values_array = utils_pkg::init(8);
-    //         $display("%p", values_array);
-    //
-    //     end: dynamic_array_test
-    Transaction tr;
+    //      fork/join spawn dynamic "coroutine"-like simulator threads
     initial
-    begin: test_distribution
-        tr = new();
-        repeat (50) begin
-            if (!tr.randomize())
-                $display("something went wrong");
-            $display("\t src=%0d,\t dst=%0d", tr.src, tr.dst);
-        end
-        $finish();
-    end: test_distribution
+    begin: concurrent
+        fork
+            misc_tests();
+            test_distribution();
+            run_stim();
+        join
 
-    Stim s;
-    initial
-    begin: test_core
-        disable test_core;
-        s = new();
-        repeat (4) begin
-            if (!s.randomize())
-                $display("something went wrong");
-            $display("\t kind=%s,\t len=%0d,\t src=%0d,\t dst=%0d,\t congestion=%0d",
-                s.kind.name(), s.length, s.src, s.dst, s.congestion_test);
-        end
         $finish();
-    end: test_core
+    end: concurrent
 
 endmodule: test_top
