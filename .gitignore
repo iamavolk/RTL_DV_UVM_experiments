@@ -6,6 +6,7 @@
 /tb/waves
 **/__pycache__
 **/sim_build
+**/results.xml
 
 **/*.fst
 *.conf
