@@ -12,7 +12,9 @@ verilate: $(RUST_LIB)
 		-j 0                        \
 		-CFLAGS "-O0"               \
 		-Wno-lint                   \
+		-Wno-fatal                  \
 		--binary                    \
+		--timing                    \
 		--trace                     \
 		--quiet-build               \
 		--prefix $(PREFIX)          \
@@ -20,8 +22,29 @@ verilate: $(RUST_LIB)
 		--exe $(CURDIR)/$(RUST_LIB) \
 		-f verilator.f
 
-run: verilate
+verilator_clean:
+	@verilator                      \
+		-j 0                        \
+		-CFLAGS "-O0"               \
+		-Wno-lint                   \
+		-Wno-fatal                  \
+		--binary                    \
+		--build-jobs 8              \
+		--timing                    \
+		--no-sched-zero-delay       \
+		--trace                     \
+		--quiet-build               \
+		--prefix $(PREFIX)          \
+		--top-module $(TOP)         \
+		-f $(FILES)
+
+run_isolated: FILES := _isolated.f
+run_isolated: verilator_clean
+
+run run_isolated:
 	@./obj_dir/$(PREFIX) +verilator+seed+$(SEED)
+
+run: verilate
 
 run_rand:
 	@./obj_dir/$(PREFIX) +verilator+seed+$(date +%s)
