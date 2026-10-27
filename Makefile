@@ -1,7 +1,7 @@
 TOP         ?= tb_top
 PREFIX      ?= simulation
 
-SEED        ?= 12345
+SEED        ?= $(shell date +%s)
 RUST_LIB    = src/rtl_sim/target/release/librtl_sim.a
 
 $(RUST_LIB): src/rtl_sim/src/lib.rs src/rtl_sim/Cargo.toml

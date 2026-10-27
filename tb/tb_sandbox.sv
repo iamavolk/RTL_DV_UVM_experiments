@@ -27,29 +27,43 @@ module tb_sandbox #(/* params, type params */) (
         $display("assocQ %p", assocQ);
     endfunction
 
-    typedef struct packed {        //  packed struct,
+    typedef struct packed { //  packed struct (can be signed or unsigned (default))
         byte    be;         //  contiguous mem layout is guaranteed by the LRM
         int     addr;
         int     data;
     } pStruct_s;
 
-    typedef struct {        //  unpacked struct
+    typedef struct {        //  unpacked struct ('signed' isn't allowed)
         byte    be;         //  can be format-displayed with %p
         int     addr;       //  contiguous memory layout isn't guaranteed
         int     data;
     } uStruct_s;
 
-    pStruct_s ps = '{
-        be: 'h7,
-        addr: 'h2,
-        data: 'h3
+    pStruct_s ps = '{       //  assignment by field name
+        be:     'hf,
+        addr:   'h2,
+        data:   'h3
     };
 
     uStruct_s us = '{
-        be: 'h7,
-        addr: 'h2,
-        data: 'h3
+        be:     'hf,
+        addr:   'h2,
+        data:   'h3
     };
+
+   /*   A few comments on callables in SystemVerilog:
+    *       'function static' vs 'static function'
+    *        the idea is that the latter is your regular OOP static function
+    *        within a class. The former, on the other hand, is a function
+    *        whose variables/parameters are static (not automatic)              */
+
+    function automatic void dBus (ref uStruct_s ctrl);
+        int value = 0;
+        /*  a slightly loaded example to showcase:
+         *      1. passing an entity by reference (func must be automatic)
+         *      2. passing a used-defined type object as arg
+         *      3. 'automatic' in the module-scope means 'value' is per call    */
+    endfunction: dBus
 
 
     initial begin
