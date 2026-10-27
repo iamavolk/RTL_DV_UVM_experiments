@@ -32,17 +32,18 @@ verilator_clean:
 		--build-jobs 8              \
 		--timing                    \
 		--no-sched-zero-delay       \
+		--timescale  1ns/1ps        \
 		--trace                     \
 		--quiet-build               \
 		--prefix $(PREFIX)          \
 		--top-module $(TOP)         \
 		-f $(FILES)
 
-run_isolated: FILES := _isolated.f
+run_isolated: FILES := _isolated.f --quiet-stats
 run_isolated: verilator_clean
 
 run run_isolated:
-	@./obj_dir/$(PREFIX) +verilator+seed+$(SEED)
+	@./obj_dir/$(PREFIX) +verilator+seed+$(SEED) +verilator+quiet
 
 run: verilate
 
