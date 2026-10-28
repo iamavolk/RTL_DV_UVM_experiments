@@ -51,24 +51,42 @@ module tb_sandbox #(/* params, type params */) (
         data:   'h3
     };
 
-   /*   A few comments on callables in SystemVerilog:
-    *       'function static' vs 'static function'
-    *        the idea is that the latter is your regular OOP static function
-    *        within a class. The former, on the other hand, is a function
-    *        whose variables/parameters are static (not automatic)              */
+    /*   A few comments on callables in SystemVerilog:
+            'function static' vs 'static function'
+             the idea is that the latter is your regular OOP static function
+             within a class. The former, on the other hand, is a function
+             whose variables/parameters are static (not automatic)              */
 
     function automatic void dBus (ref uStruct_s ctrl);
         int value = 0;
         /*  a slightly loaded example to showcase:
-         *      1. passing an entity by reference (func must be automatic)
-         *      2. passing a used-defined type object as arg
-         *      3. 'automatic' in the module-scope means 'value' is per call    */
+               1. passing an entity by reference (func must be automatic)
+               2. passing a used-defined type object as arg
+               3. 'automatic' in the module-scope means 'value' is per call    */
     endfunction: dBus
 
 
-    initial begin
-        $display("ps=%h", ps);
-        $display("us=%p", us);
-    end
+    // initial begin
+    //     $display("ps=%h", ps);
+    //     $display("us=%p", us);
+    // end
+    // initial
+    //     select_ordinal();
 
 endmodule: tb_sandbox
+
+/*  foreach loop grabs elements by keys, but we
+    want ordinal positions, hence the use of 'count'                            */
+task select_ordinal;
+    int aa[int] = '{ 0:1, 5:2, 10:4, 50:3, 33:1 };
+    int idx, elem, count;
+    elem = $urandom_range(aa.size()-1);
+
+    foreach(aa[i])
+        if (count++ == elem) begin
+            idx = i;
+            break;
+        end
+
+    $display("element#%0d aa[%0d] = %0d", elem, idx, aa[idx]);
+endtask: select_ordinal
