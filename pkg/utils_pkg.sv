@@ -22,14 +22,14 @@ package utils_pkg;
         $display("the array checksum is %h", checksum);
     endfunction: print_csm_11
 
-    //  leave comments, be kind to others
+    //  leave comments, be kind to yourself a few months on from now
     function automatic fixed_array5_t init(input int start);
         foreach (init[i]) begin
             init[i] = i + start;
         end
     endfunction: init
 
-    //  but also be rational and don't clutter the workspace
+    //  but also be mindful and don't clutter the workspace
     function automatic void say_hi();
         $display("yo");
     endfunction: say_hi
