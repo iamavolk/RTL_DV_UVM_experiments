@@ -5,14 +5,34 @@
         ...WIP...
 */
 
-//      SV doesn't lacks a foreach loop for a intergral value range,
-//      so a macro would do
+//      SV lacks a foreach syntactic sugar for an intergral value- based
+//      range, so a macro like the one below would do
 
 `define for_range(count)            \
     for (int i = 0; i < count; ++i) \
 
-//      juggling #(delay)s within a directed testbench can
-//      quickly become unwieldy; wait_until to the rescue
+//      a few notes no the macro syntax:
+//         --   `__FILE__, etc, are SV preprocessor macro defines
+//
+//         --   wrappers `" <...> `" are needed to expand r, since r itself
+//              is an expression (otherwire r is simply substituted, i.e. "r")
+//
+//         --   the semicolon literal (;) is intended to be used with the macro
+//              'do begin .. end while(0)' style assumes this style:
+//
+//                  rand_check(tx.randomize(t));
+//
+`define rand_check(r)                                       \
+    do begin                                                \
+        if (!(r)) begin                                     \
+            $display("%s:%0d: randomization failed \"%s\"", \
+                     `__FILE__, `__LINE__, `"r`");          \
+            $finish();                                      \
+        end                                                 \
+    end while(0)
+
+//          juggling #(delay)s within a directed testbench can
+//          quickly become unwieldy; 'wait_until' to the rescue
 //
 task automatic wait_until(input time target);
     if (target > $time)
