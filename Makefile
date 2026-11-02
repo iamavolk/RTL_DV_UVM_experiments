@@ -29,11 +29,13 @@ verilator_clean:
 		-Wno-lint                   \
 		-Wno-fatal                  \
 		--binary                    \
+		--coverage                  \
+		--coverage-user             \
 		--build-jobs 8              \
 		--timing                    \
 		--no-sched-zero-delay       \
 		--timescale  1ns/1ps        \
-		--trace                     \
+		--trace-fst                 \
 		--quiet-build               \
 		--prefix $(PREFIX)          \
 		--top-module $(TOP)         \
@@ -41,6 +43,10 @@ verilator_clean:
 
 run_isolated: FILES := _isolated.f --quiet-stats
 run_isolated: verilator_clean
+run_coverage:
+	@verilator_coverage             \
+		--annotate coverage_report  \
+		coverage.dat                \
 
 run run_isolated:
 	@./obj_dir/$(PREFIX) +verilator+seed+$(SEED) +verilator+quiet
