@@ -14,7 +14,7 @@ module tb_confidence_counter;
     end
 
     initial begin
-        $dumpfile("cconfidence_counter.fst");
+        $dumpfile("waves/confidence_counter.fst");
         $dumpvars(0, tb_confidence_counter);
     end
 
