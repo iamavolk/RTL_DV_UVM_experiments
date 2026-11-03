@@ -1,6 +1,6 @@
-# Package first
+# Packages
 # pkg/utils_pkg.sv
-pkg/definitions_pkg.sv
+# pkg/definitions_pkg.sv
 
 # RTL
 # src/behavioral_adder.sv
@@ -8,9 +8,9 @@ pkg/definitions_pkg.sv
 # src/simple_arbiter.sv
 # src/edge_detector.sv
 # src/fifo_ext_hshake.sv
-src/confidence_if.sv
-src/confidence_counter.sv
-src/clock_gen.sv
+# src/confidence_if.sv
+# src/confidence_counter.sv
+# src/clock_gen.sv
 
 # TB
 # tb/chapter_3.sv
@@ -22,6 +22,6 @@ src/clock_gen.sv
 # tb/test_top.sv
 # tb/trial_and_error.sv
 # tb/verilator_issues/event_sched.sv
-tb/tb_confidence_counter.sv
+# tb/tb_confidence_counter.sv
 
 # vim: ft=make

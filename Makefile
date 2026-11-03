@@ -1,9 +1,12 @@
 TOP         ?= tb_top
-PREFIX      ?= simulation
+PREFIX      ?= sim_tb
 
 SEED        ?= $(shell date +%s)
-RUST_LIB    = src/rtl_sim/target/release/librtl_sim.a
+OBJ_DIR     ?= obj_dir
+COV_DIR     ?= coverage
+COV_NAME    ?= coverage
 
+RUST_LIB    = src/rtl_sim/target/release/librtl_sim.a
 $(RUST_LIB): src/rtl_sim/src/lib.rs src/rtl_sim/Cargo.toml
 	cargo build --release --lib --manifest-path src/rtl_sim/Cargo.toml
 
@@ -22,7 +25,7 @@ verilate: $(RUST_LIB)
 		--exe $(CURDIR)/$(RUST_LIB) \
 		-f verilator.f
 
-verilator_clean:
+verilate_clean:
 	@verilator                      \
 		-j 0                        \
 		-CFLAGS "-O0"               \
@@ -42,25 +45,26 @@ verilator_clean:
 		--top-module $(TOP)         \
 		-f $(FILES)
 
-run_isolated: FILES := _isolated.f
-run_isolated: verilator_clean
+run_test: FILES := _isolated.f
+run_test: verilate_clean
 
 run_coverage:
 	@verilator_coverage             \
 		--annotate coverage_report  \
-		coverage.dat                \
+		$(COV_DIR)/$(COV_NAME).dat  \
 
-run run_isolated:
-	@./obj_dir/$(PREFIX) +verilator+seed+$(SEED) +verilator+quiet
+run run_test:
+	@./$(OBJ_DIR)/$(PREFIX)         \
+		+verilator+seed+$(SEED) +verilator+quiet +verilator+coverage+file+$(COV_DIR)/$(COV_NAME).dat
 
 run: verilate
 
 run_rand:
-	@./obj_dir/$(PREFIX) +verilator+seed+$(date +%s)
+	@./$(OBJ_DIR)/$(PREFIX) +verilator+seed+$(date +%s)
 
-#-------------------------------------------
-#-- RHEL / Alma / Rocky with Vivado >= 25.02
-#-------------------------------------------
+#############################################
+#   RHEL / Alma / Rocky with Vivado >= 25.02
+#############################################
 xsim:
 	@mkdir -p build
 	@cd build && xvlog ../src/behavioral_adder.sv ../tb/behavioral_adder_tb.sv
@@ -70,4 +74,4 @@ xsim:
 clean:
 	rm -rf obj_dir xsim.dir *.pb *.log *.wdb
 
-.PHONY: verilate run run_rand
+.PHONY: verilate verilate_clean run run_rand run_test run_coverage xsim clean
