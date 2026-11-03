@@ -37,12 +37,14 @@ verilator_clean:
 		--timescale  1ns/1ps        \
 		--trace-fst                 \
 		--quiet-build               \
+		--quiet-stats               \
 		--prefix $(PREFIX)          \
 		--top-module $(TOP)         \
 		-f $(FILES)
 
-run_isolated: FILES := _isolated.f --quiet-stats
+run_isolated: FILES := _isolated.f
 run_isolated: verilator_clean
+
 run_coverage:
 	@verilator_coverage             \
 		--annotate coverage_report  \
